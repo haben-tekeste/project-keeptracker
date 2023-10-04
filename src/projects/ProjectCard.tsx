@@ -9,18 +9,22 @@ function formatDescription(description: string): string {
 }
 
 function ProjectCard({ project }: projectCardProps) {
+  const handleEditClick = (project: Project) => {};
+
   return (
-    <div className="cols-sm" key={project.id}>
-      <div className="card">
-        <img src={project.imageUrl} alt={project.name} />
-        <section className="section dark">
-          <h5 className="strong">
-            <strong>{project.name}</strong>
-          </h5>
-          <p>{formatDescription(project.description)}</p>
-          <p>Budget: {project.budget.toLocaleString()}</p>
-        </section>
-      </div>
+    <div className="card">
+      <img src={project.imageUrl} alt={project.name} />
+      <section className="section dark">
+        <h5 className="strong">
+          <strong>{project.name}</strong>
+        </h5>
+        <p>{formatDescription(project.description)}</p>
+        <p>Budget: {project.budget.toLocaleString()}</p>
+        <button className="bordered" onClick={() => handleEditClick(project)}>
+          <span className="icon-edit "></span>
+          Edit
+        </button>
+      </section>
     </div>
   );
 }
