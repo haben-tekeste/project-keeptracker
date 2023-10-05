@@ -2,14 +2,18 @@ import { Project } from "./Project";
 
 type projectCardProps = {
   project: Project;
+  onEdit: (project: Project) => void;
+
 };
 
 function formatDescription(description: string): string {
   return description.substring(0, 60) + " ...";
 }
 
-function ProjectCard({ project }: projectCardProps) {
-  const handleEditClick = (project: Project) => {};
+function ProjectCard({ project, onEdit }: projectCardProps) {
+  const handleEditClick = (project: Project) => {
+    onEdit(project);
+  };
 
   return (
     <div className="card">
