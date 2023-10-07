@@ -29,3 +29,15 @@ function checkStatus(response: any) {
   let errorMessage = translateStatusToErrorMessage(httpErrorInfo.status);
   throw new Error(errorMessage);
 }
+
+function parseJson(response: Response) {
+  return response.json();
+}
+
+function delay(ms: number) {
+  return function (x: any): Promise<any> {
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(x), ms);
+    });
+  };
+}
