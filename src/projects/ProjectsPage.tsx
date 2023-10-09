@@ -36,6 +36,17 @@ function ProjectsPage() {
   return (
     <Fragment>
       <h1>Projects</h1>
+      {error && (
+        <div class="card large error">
+          <section>
+            <p>
+              <span class="icon-alert inverse "></span>
+              {error}
+            </p>
+          </section>
+        </div>
+      )}
+      <div class="row"></div>
       <ProjectList projects={projects} onSave={saveProject} />
       {loading && (
         <div className="center-page">
