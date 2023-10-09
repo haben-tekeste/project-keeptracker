@@ -37,6 +37,12 @@ function ProjectsPage() {
     <Fragment>
       <h1>Projects</h1>
       <ProjectList projects={projects} onSave={saveProject} />
+      {loading && (
+        <div className="center-page">
+          <span className="spinner primary"></span>
+          <p>Loading...</p>
+        </div>
+      )}
     </Fragment>
   );
 }
