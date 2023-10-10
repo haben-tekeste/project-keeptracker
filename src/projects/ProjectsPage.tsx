@@ -2,7 +2,7 @@ import { MOCK_PROJECTS } from "./MockProject";
 import ProjectList from "./ProjectList";
 import { Project } from "./Project";
 import { useState, useEffect, Fragment } from "react";
-import { projectApi } from "./projectApi";
+import { projectAPI } from "./projectApi";
 
 function ProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -11,10 +11,19 @@ function ProjectsPage() {
   const [currentPage, setCurrentPage] = useState(1);
 
   const saveProject = (project: Project) => {
-    const updatedProjects = projects.map((p: Project) => {
-      return p.id === project.id ? project : p;
-    });
-    setProjects(updatedProjects);
+    projectAPI
+      .put(project)
+      .then((updatedProject) => {
+        let updatedProjects = projects.map((p: Project) => {
+          return p.id === project.id ? new Project(updatedProject) : p;
+        });
+        setProjects(updatedProjects);
+      })
+      .catch((e) => {
+        if (e instanceof Error) {
+          setError(e.message);
+        }
+      });
   };
 
   const handleMoreClick = () => {
@@ -25,7 +34,7 @@ function ProjectsPage() {
     async function loadProjects() {
       setLoading(true);
       try {
-        const data = await projectApi.get(currentPage);
+        const data = await projectAPI.get(currentPage);
         if (currentPage === 1) {
           setProjects(data);
         } else {

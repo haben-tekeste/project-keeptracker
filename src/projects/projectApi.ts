@@ -1,6 +1,6 @@
 import { Project } from "./Project";
 
-const baseUrl = "http://localhost:4000";
+const baseUrl = "https://localhost:4000";
 const url = `${baseUrl}/projects`;
 
 function translateStatusToErrorMessage(status: number) {
@@ -30,7 +30,7 @@ function checkStatus(response: any) {
   throw new Error(errorMessage);
 }
 
-function parseJson(response: Response) {
+function parseJSON(response: Response) {
   return response.json();
 }
 
@@ -51,11 +51,11 @@ function convertToProjectModel(item: any): Project {
   return new Project(item);
 }
 
-const projectApi = {
+const projectAPI = {
   get(page = 1, limit = 20) {
     return fetch(`${url}?_page=${page}&_limit=${limit}&_sort=name`)
       .then(checkStatus)
-      .then(parseJson)
+      .then(parseJSON)
       .then(convertToProjectModels)
       .catch((error: TypeError) => {
         console.log("log client error " + error);
@@ -64,6 +64,23 @@ const projectApi = {
         );
       });
   },
+  put(project: Project) {
+    return fetch(`${url}/${project.id}`, {
+      method: "PUT",
+      body: JSON.stringify(project),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then(checkStatus)
+      .then(parseJSON)
+      .catch((error: TypeError) => {
+        console.log("log client error ", error);
+        throw new Error(
+          "There was an error updating the project. Please try again.",
+        );
+      });
+  },
 };
 
-export { projectApi };
+export { projectAPI };
