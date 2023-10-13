@@ -6,6 +6,9 @@ import { useState, useEffect, Fragment } from "react";
 import { projectAPI } from "./projectApi";
 import { AppState } from "../state";
 import { useSelector, useDispatch } from "react-redux";
+import { ProjectState } from "./state/projectTypes";
+import { AnyAction } from "redux";
+import { ThunkDispatch } from "redux-thunk";
 
 function ProjectsPage() {
   const {
@@ -14,7 +17,7 @@ function ProjectsPage() {
     page: currentPage,
     projects,
   } = useSelector((appState: AppState) => appState.projectState);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<ThunkDispatch<ProjectState, any, AnyAction>>();
 
   const saveProject = (project: Project) => {
     projectAPI
@@ -33,11 +36,11 @@ function ProjectsPage() {
   };
 
   const handleMoreClick = () => {
-    dispatch(loadProjects(currentPage + 1) as any);
+    dispatch(loadProjects(currentPage + 1));
   };
 
   useEffect(() => {
-    dispatch(loadProjects(1) as any);
+    dispatch(loadProjects(1));
   }, [currentPage]);
   return (
     <Fragment>
@@ -55,7 +58,7 @@ function ProjectsPage() {
         </div>
       )}
 
-      <ProjectList projects={projects} onSave={saveProject} />
+      <ProjectList projects={projects} />
       {!loading && !error && (
         <div className="row">
           <div className="col-sm-12">
