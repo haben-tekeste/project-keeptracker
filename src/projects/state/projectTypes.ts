@@ -1,4 +1,4 @@
-import { Project } from "./Project";
+import { Project } from "../Project";
 
 //action types
 export const LOAD_PROJECTS_REQUEST = "LOAD_PROJECTS_REQUEST";
