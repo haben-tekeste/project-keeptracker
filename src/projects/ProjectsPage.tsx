@@ -1,14 +1,20 @@
 import { MOCK_PROJECTS } from "./MockProject";
 import ProjectList from "./ProjectList";
+import { loadProjects } from "./state/projectActions";
 import { Project } from "./Project";
 import { useState, useEffect, Fragment } from "react";
 import { projectAPI } from "./projectApi";
+import { AppState } from "../state";
+import { useSelector, useDispatch } from "react-redux";
 
 function ProjectsPage() {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | undefined>(undefined);
-  const [currentPage, setCurrentPage] = useState(1);
+  const {
+    loading,
+    error,
+    page: currentPage,
+    projects,
+  } = useSelector((appState: AppState) => appState.projectState);
+  const dispatch = useDispatch();
 
   const saveProject = (project: Project) => {
     projectAPI
@@ -17,39 +23,21 @@ function ProjectsPage() {
         let updatedProjects = projects.map((p: Project) => {
           return p.id === project.id ? new Project(updatedProject) : p;
         });
-        setProjects(updatedProjects);
+        // setProjects(updatedProjects);
       })
       .catch((e) => {
         if (e instanceof Error) {
-          setError(e.message);
+          // setError(e.message);
         }
       });
   };
 
   const handleMoreClick = () => {
-    setCurrentPage((currentPage) => currentPage + 1);
+    dispatch(loadProjects(currentPage + 1) as any);
   };
 
   useEffect(() => {
-    async function loadProjects() {
-      setLoading(true);
-      try {
-        const data = await projectAPI.get(currentPage);
-        if (currentPage === 1) {
-          setProjects(data);
-        } else {
-          setProjects((projects) => [...projects, ...data]);
-        }
-        setError("");
-      } catch (error) {
-        if (error instanceof Error) {
-          setError(error.message);
-        }
-      } finally {
-        setLoading(false);
-      }
-    }
-    loadProjects();
+    dispatch(loadProjects(1) as any);
   }, [currentPage]);
   return (
     <Fragment>
