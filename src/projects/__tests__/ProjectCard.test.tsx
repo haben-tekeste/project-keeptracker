@@ -8,6 +8,13 @@ describe("<ProjectCard/>", () => {
   let project: Project;
   let handleEdit: jest.Mock;
 
+  const setup = () =>
+    render(
+      <MemoryRouter>
+        <ProjectCard project={project} onEdit={handleEdit} />
+      </MemoryRouter>,
+    );
+
   beforeEach(() => {
     project = new Project({
       id: 1,
@@ -19,30 +26,18 @@ describe("<ProjectCard/>", () => {
   });
 
   it("Should initially render", () => {
-    render(
-      <MemoryRouter>
-        <ProjectCard project={project} onEdit={handleEdit} />
-      </MemoryRouter>,
-    );
+    setup();
   });
 
   it("Should render project properly", () => {
-    render(
-      <MemoryRouter>
-        <ProjectCard project={project} onEdit={handleEdit} />
-      </MemoryRouter>,
-    );
+    setup();
     expect(screen.getByRole("heading")).toHaveTextContent(project.name);
     screen.getByText(/this is really difficult/i);
     screen.getByText(/budget : 100/i);
   });
 
   it("Should call handler when edit is clicked", async () => {
-    render(
-      <MemoryRouter>
-        <ProjectCard project={project} onEdit={handleEdit} />
-      </MemoryRouter>,
-    );
+    setup();
 
     const user = userEvent.setup();
     await user.click(screen.getByRole("button", { name: /edit/i }));
