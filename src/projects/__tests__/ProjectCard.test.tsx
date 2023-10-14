@@ -3,6 +3,7 @@ import ProjectCard from "../ProjectCard";
 import { Project } from "../Project";
 import { MemoryRouter } from "react-router-dom";
 import { userEvent } from "@testing-library/user-event";
+import renderer from "react-test-renderer";
 
 describe("<ProjectCard/>", () => {
   let project: Project;
@@ -43,5 +44,16 @@ describe("<ProjectCard/>", () => {
     await user.click(screen.getByRole("button", { name: /edit/i }));
     expect(handleEdit).toBeCalledTimes(1);
     expect(handleEdit).toBeCalledWith(project);
+  });
+
+  test("snapshot", () => {
+    const tree = renderer
+      .create(
+        <MemoryRouter>
+          <ProjectCard project={project} onEdit={handleEdit} />
+        </MemoryRouter>,
+      )
+      .toJSON();
+    expect(tree).toMatchSnapshot();
   });
 });
