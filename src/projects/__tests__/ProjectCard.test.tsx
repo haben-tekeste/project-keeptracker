@@ -24,4 +24,15 @@ describe("<ProjectCard/>", () => {
       </MemoryRouter>,
     );
   });
+
+  it("Should render project properly", () => {
+    render(
+      <MemoryRouter>
+        <ProjectCard project={project} onEdit={handleEdit} />
+      </MemoryRouter>,
+    );
+    expect(screen.getByRole("heading")).toHaveTextContent(project.name);
+    screen.getByText(/this is really difficult/i);
+    screen.getByText(/budget : 100/i);
+  });
 });
