@@ -23,4 +23,12 @@ describe("<ProjectList />", () => {
     setup();
     expect(screen).toBeDefined();
   });
+
+  test("Should display list of projects", () => {
+    setup();
+    expect(screen.getAllByRole("heading")).toHaveLength(MOCK_PROJECTS.length);
+    expect(screen.getAllByRole("img")).toHaveLength(MOCK_PROJECTS.length);
+    expect(screen.getAllByRole("link")).toHaveLength(MOCK_PROJECTS.length);
+    expect(screen.getAllByRole("button")).toHaveLength(MOCK_PROJECTS.length);
+  });
 });
