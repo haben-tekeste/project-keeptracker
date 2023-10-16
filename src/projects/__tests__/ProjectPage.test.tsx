@@ -16,12 +16,17 @@ describe("<ProjectsPage />", () => {
         <MemoryRouter>
           <ProjectsPage />
         </MemoryRouter>
-      </Provider>
+      </Provider>,
     );
   }
 
   test("should render without crashing", () => {
     renderComponent();
     expect(screen).toBeDefined();
+  });
+
+  test("should display loading", () => {
+    renderComponent();
+    expect(screen.getByText(/loading/i)).toBeInTheDocument();
   });
 });
