@@ -37,14 +37,44 @@ describe("<ProjectList />", () => {
     // eslint-disable-next-line testing-library/render-result-naming-convention
     const user = userEvent.setup();
 
-    await user.click(
-      screen.getByRole("button", { name: /edit Wisozk Group/i }),
-    );
+    act(() => {
+      user.click(screen.getByRole("button", { name: /edit Wisozk Group/i }));
+    });
 
     await waitFor(() => {
       expect(
         screen.getByRole("form", { name: /edit a project/i }),
       ).toBeInTheDocument();
     });
+  });
+
+  test("Should display image and remove form when cancel edit is clicked", async () => {
+    setup();
+
+    // eslint-disable-next-line testing-library/render-result-naming-convention
+    const user = userEvent.setup();
+
+    act(() => {
+      user.click(screen.getByRole("button", { name: /edit Wisozk Group/i }));
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole("form", { name: /edit a project/i }),
+      ).toBeInTheDocument();
+    });
+
+    act(() => {
+      user.click(screen.getByRole("button", { name: /cancel/i }));
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole("img", { name: /wisozk group/i }),
+      ).toBeInTheDocument();
+    });
+    // expect(
+    //   screen.getByRole("form", { name: /edit a project/i }),
+    // ).not.toBeInTheDocument();
   });
 });
