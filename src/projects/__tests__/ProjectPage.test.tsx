@@ -60,4 +60,24 @@ describe("<ProjectsPage />", () => {
       await screen.findByRole("button", { name: /more/i }),
     ).toBeInTheDocument();
   });
+
+  // this tests the same as the last test but demonstrates
+  // what find* methods are doing
+  test("should display more button with get", async () => {
+    renderComponent();
+    await waitForElementToBeRemoved(() => screen.queryByText(/loading/i));
+    expect(screen.getByRole("button", { name: /more/i })).toBeInTheDocument();
+  });
+
+  test("Should display custom error upon server error", async () => {
+    server.use(
+      rest.get(projectsUrl, (req, res, ctx) => {
+        return res(ctx.status(500, "Server error"));
+      }),
+    );
+    renderComponent();
+    expect(
+      await screen.findByText(/There was an error retrieving the project(s)./i),
+    ).toBeInTheDocument();
+  });
 });
