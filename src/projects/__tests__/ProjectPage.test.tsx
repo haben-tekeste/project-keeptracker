@@ -49,8 +49,15 @@ describe("<ProjectsPage />", () => {
 
   test("should display projects", async () => {
     renderComponent();
-    // expect(await screen.findAllByRole("img")).toHaveLength(
-    //   MOCK_PROJECTS.length,
-    // );
+    expect(await screen.findAllByRole("img")).toHaveLength(
+      MOCK_PROJECTS.length,
+    );
+  });
+
+  test("Should display more button", async () => {
+    renderComponent();
+    expect(
+      await screen.findByRole("button", { name: /more/i }),
+    ).toBeInTheDocument();
   });
 });
