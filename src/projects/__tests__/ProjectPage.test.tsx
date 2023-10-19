@@ -18,7 +18,7 @@ const server = setupServer(
   // capture "GET http://localhost:3000/projects" requests
   rest.get(projectsUrl, (req, res, ctx) => {
     // respond with mocked json body
-    return ctx.json(MOCK_PROJECTS);
+    return res(ctx.json(MOCK_PROJECTS));
   }),
 );
 
@@ -45,5 +45,12 @@ describe("<ProjectsPage />", () => {
   test("should display loading", () => {
     renderComponent();
     expect(screen.getByText(/loading/i)).toBeInTheDocument();
+  });
+
+  test("should display projects", async () => {
+    renderComponent();
+    // expect(await screen.findAllByRole("img")).toHaveLength(
+    //   MOCK_PROJECTS.length,
+    // );
   });
 });
