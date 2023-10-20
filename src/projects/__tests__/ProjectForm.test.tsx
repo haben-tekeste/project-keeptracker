@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { render, screen, act, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { Project } from "../Project";
 import ProjectForm from "../ProjectForm";
@@ -59,6 +59,35 @@ describe("<ProjectForm/>", () => {
       description: project.description,
       budget: project.budget,
       isActive: project.isActive,
+    });
+  });
+  test("Should accept input", async () => {
+    setup();
+    const user = userEvent.setup();
+
+    act(() => {
+      user.clear(nameTextBox);
+      user.type(nameTextBox, updatedProject.name);
+    });
+    await waitFor(() => {
+      expect(nameTextBox).toHaveValue(updatedProject.name);
+    });
+
+    act(() => {
+      user.clear(descriptionTextBox);
+      user.type(descriptionTextBox, updatedProject.description);
+    });
+
+    await waitFor(() => {
+      expect(descriptionTextBox).toHaveValue(updatedProject.description);
+    });
+
+    act(() => {
+      user.clear(budgetTextBox);
+      user.type(budgetTextBox, updatedProject.budget);
+    });
+    await waitFor(() => {
+      expect(budgetTextBox).toHaveValue(updatedProject.budget);
     });
   });
 });
