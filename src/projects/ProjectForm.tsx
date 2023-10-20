@@ -93,24 +93,28 @@ function ProjectForm({ onCancel, project: initialProject }: projectFormProps) {
       <input
         type="text"
         name="name"
+        id="name"
+        aria-label="project name"
         placeholder="enter name"
         value={project.name}
         onChange={handleChange}
       />
       {errors.name.length > 0 && (
-        <div className="card error">
+        <div className="card error" role="alert">
           <p>{errors.name}</p>
         </div>
       )}
       <label htmlFor="description">Project Description</label>
       <textarea
         name="description"
+        id="description"
+        aria-label="project description"
         placeholder="enter description"
         value={project.description}
         onChange={handleChange}
       />
       {errors.description.length > 0 && (
-        <div className="card error">
+        <div className="card error" role="alert">
           <p>{errors.description}</p>
         </div>
       )}
@@ -118,18 +122,20 @@ function ProjectForm({ onCancel, project: initialProject }: projectFormProps) {
       <input
         type="number"
         name="budget"
+        id="budget"
         placeholder="enter budget"
         value={project.budget}
         onChange={handleChange}
       />
       {errors.budget.length > 0 && (
-        <div className="card error">
+        <div className="card error" role="alert">
           <p>{errors.budget}</p>
         </div>
       )}
       <label htmlFor="isActive">Active?</label>
       <input
         type="checkbox"
+        id="isActive"
         name="isActive"
         checked={project.isActive}
         onChange={handleChange}
