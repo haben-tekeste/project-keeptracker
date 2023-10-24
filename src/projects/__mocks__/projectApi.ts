@@ -5,3 +5,5 @@ const projectAPI = {
     return Promise.resolve(MOCK_PROJECTS);
   },
 };
+
+export { projectAPI };
