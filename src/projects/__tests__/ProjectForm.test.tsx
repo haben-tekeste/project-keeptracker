@@ -90,4 +90,48 @@ describe("<ProjectForm/>", () => {
       expect(budgetTextBox).toHaveValue(updatedProject.budget);
     });
   });
+  test("name should display required validation", async () => {
+    setup();
+    const user = userEvent.setup();
+    act(() => {
+      user.clear(nameTextBox);
+    });
+    await waitFor(() => {
+      expect(screen.getByRole("alert")).toBeInTheDocument();
+    });
+  });
+
+  test("name should display minlength 0 validation", async () => {
+    setup();
+    const user = userEvent.setup();
+
+    await waitFor(async () => {
+      await user.clear(nameTextBox);
+      await user.type(nameTextBox, "a");
+      expect(screen.getByRole("alert")).toBeInTheDocument();
+      await user.type(nameTextBox, "c");
+      expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+    });
+  });
+
+  test("budget should display not 0 validation", async () => {
+    setup();
+    const user = userEvent.setup();
+    act(() => {
+      user.clear(budgetTextBox);
+      user.type(budgetTextBox, "0");
+    });
+
+    await waitFor(() => {
+      expect(screen.getByRole("alert")).toBeInTheDocument();
+    });
+
+    act(() => {
+      user.type(budgetTextBox, "1");
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+    });
+  });
 });
