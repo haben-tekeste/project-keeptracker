@@ -38,4 +38,20 @@ describe("Project Actions", () => {
       expect(actions).toEqual(expectedActions);
     });
   });
+
+  test("Should return error when loading project fails", () => {
+    projectAPI.get = jest.fn().mockImplementationOnce(() => {
+      return Promise.reject("failed");
+    });
+
+    const expectedActions = [
+      { type: LOAD_PROJECTS_REQUEST },
+      { type: LOAD_PROJECTS_FAILURE, payload: "failed" },
+    ];
+
+    return store.dispatch(loadProjects(1)).then(() => {
+      const actions = store.getActions();
+      expect(actions).toEqual(expectedActions);
+    });
+  });
 });
